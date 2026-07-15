@@ -4,13 +4,11 @@
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
   ],
-
   "compilerOptions": {
-    // "ignoreDeprecations": "6.0",
+    "ignoreDeprecations": "6.0",
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
-    },
-    // "ignoreDeprecations": "6.0"
+    }
   }
 }
