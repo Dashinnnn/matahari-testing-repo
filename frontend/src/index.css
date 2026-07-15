@@ -1,0 +1,222 @@
+@import 'tailwindcss';
+
+@plugin 'tailwindcss-animate';
+
+@custom-variant dark (&:is(.dark *));
+
+@custom-variant data-active (&[data-state="active"]);
+@custom-variant data-checked (&[data-state="checked"]);
+@custom-variant data-closed (&[data-state="closed"]);
+@custom-variant data-disabled (&[data-disabled], &[disabled]);
+@custom-variant data-open (&[data-state="open"]);
+@custom-variant data-horizontal (&[data-orientation="horizontal"]);
+@custom-variant data-vertical (&[data-orientation="vertical"]);
+
+@utility container {
+  margin-inline: auto;
+  padding-inline: 2rem;
+  @media (width >= --theme(--breakpoint-sm)) {
+    max-width: none;
+  }
+  @media (width >= 1400px) {
+    max-width: 1400px;
+  }
+}
+
+@theme {
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  /* ── Political orientation colors ── */
+  --color-pol-maratas:   hsl(var(--pol-maratas));
+  --color-pol-luz:       hsl(var(--pol-luz));
+  --color-pol-undecided: hsl(var(--pol-undecided));
+  --color-pol-inconclusive: hsl(var(--pol-inconclusive));
+
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
+
+@utility tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+@layer utilities {
+  /* Leaflet pin overrides */
+  .custom-pin,
+  .custom-group-pin {
+    background: transparent !important;
+    border: none !important;
+  }
+
+  /* Avatar ring */
+  .pol-ring-maratas   { --tw-ring-color: hsl(var(--pol-maratas));   }
+  .pol-ring-luz       { --tw-ring-color: hsl(var(--pol-luz));       }
+  .pol-ring-undecided { --tw-ring-color: hsl(var(--pol-undecided)); }
+  .pol-ring-inconclusive { --tw-ring-color: hsl(var(--pol-inconclusive)); }
+
+  .pol-bg-maratas     { background-color: hsl(var(--pol-maratas)); }
+  .pol-bg-luz         { background-color: hsl(var(--pol-luz)); }
+  .pol-bg-undecided   { background-color: hsl(var(--pol-undecided)); }
+  .pol-bg-inconclusive { background-color: hsl(var(--pol-inconclusive)); }
+
+  .pol-tint-maratas   { background-color: hsl(var(--pol-maratas) / 0.12); }
+  .pol-tint-luz       { background-color: hsl(var(--pol-luz) / 0.12); }
+  .pol-tint-undecided { background-color: hsl(var(--pol-undecided) / 0.12); }
+  .pol-tint-inconclusive { background-color: hsl(var(--pol-inconclusive) / 0.12); }
+
+  .pol-text-maratas   { color: hsl(var(--pol-maratas)); }
+  .pol-text-luz       { color: hsl(var(--pol-luz)); }
+  .pol-text-undecided { color: hsl(var(--pol-undecided)); }
+  .pol-text-inconclusive { color: hsl(var(--pol-inconclusive)); }
+
+  .pol-border-maratas   { border-color: hsl(var(--pol-maratas)); }
+  .pol-border-luz       { border-color: hsl(var(--pol-luz)); }
+  .pol-border-undecided { border-color: hsl(var(--pol-undecided)); }
+  .pol-border-inconclusive { border-color: hsl(var(--pol-inconclusive)); }
+ 
+}
+
+@layer base {
+  :root {
+    --background: 210 40% 98%;
+    --foreground: 222 47% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    --primary: 221 83% 53%;
+    --primary-foreground: 210 40% 98%;
+
+    --sidebar-color: 222 47% 11%;
+
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 11%;
+
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+
+    --accent: 210 40% 96%;
+    --accent-foreground: 222 47% 11%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 221 83% 53%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 222 47% 11%;
+    --sidebar-foreground: 210 40% 96%;
+    --sidebar-primary: 221 83% 53%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 222 47% 16%;
+    --sidebar-accent-foreground: 210 40% 96%;
+    --sidebar-border: 222 47% 18%;
+    --sidebar-ring: 221 83% 53%;
+
+    /* Status colors */
+    --success: 142 71% 45%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+    --info: 217 91% 60%;
+    --info-foreground: 0 0% 100%;
+
+    --chart-1: 221 83% 53%;
+    --chart-2: 142 71% 45%;
+    --chart-3: 38 92% 50%;
+    --chart-4: 0 84% 60%;
+    --chart-5: 262 83% 58%;
+
+    /* ── Political orientation palette ────────────────────────────────────
+       HSL values only — no hsl() wrapper here, following the same
+       convention as every other token above (e.g. --primary, --destructive).
+       To change a candidate's color, edit only these three lines.
+    ── */
+    --pol-maratas:   0 84% 60%;    /* red   — same hue as --destructive  */
+    --pol-luz:       142 71% 45%;  /* green — same hue as --success       */
+    --pol-undecided: 38 92% 50%;   /* amber — same hue as --warning       */
+    --pol-inconclusive: 0 0% 45%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+}
