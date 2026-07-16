@@ -337,8 +337,7 @@ export function applyHouseholdFilters(
         hh.barangay.toLowerCase().includes(q) ||
         hh.cluster.toLowerCase().includes(q) ||
         hh.precinct.toLowerCase().includes(q) ||
-        hh.id.toLowerCase().includes(q) ||
-        hh.occupation.toLowerCase().includes(q)
+        hh.id.toLowerCase().includes(q)
       );
     }
     return true;

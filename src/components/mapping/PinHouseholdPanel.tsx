@@ -13,7 +13,7 @@ import {
   type PoliticalTendency,
   type PoliticalOrientation
 } from "@/data/mockData";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { CardHeader, CardTitle } from "@/components/ui/card";
 // import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { HouseholdFilterBar, applyHouseholdFilters, type HouseholdFilters } from "../data-repository/HouseholdFilterBar";
 

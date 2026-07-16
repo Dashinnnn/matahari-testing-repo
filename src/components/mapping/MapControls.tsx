@@ -257,7 +257,7 @@ const MapControls = ({ onFlyTo, pendingCoords, onSaveComplete }: MapControlsProp
                   setEditingLocationName('');
                 };
                 
-                const handleKeyDown = (e) => {
+                const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
                   if (e.key === 'Enter') {
                     handleSaveEdit();
                   } else if (e.key === 'Escape') {

@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Heart, Vote, Shield, User } from "lucide-react";
 
-import { getCandidateConfig, households, type Household, type Person} from "@/data/mockData";
+import { getCandidateConfig, type Household, type Person} from "@/data/mockData";
 
 
 export type HouseholdWorkspaceTab =

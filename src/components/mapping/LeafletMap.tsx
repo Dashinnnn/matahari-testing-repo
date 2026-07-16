@@ -5,21 +5,17 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import CoordinateDisplay from './CoordinateDisplay';
 import { HouseholdPopup } from "./HouseholdPopup";
-import { HouseholdFilterBar, applyHouseholdFilters, type HouseholdFilters } from '../data-repository/HouseholdFilterBar';
+import { applyHouseholdFilters, type HouseholdFilters } from '../data-repository/HouseholdFilterBar';
 import { 
   households, 
-  POLITICAL_CANDIDATES,
   type Household, 
   type Person, 
   persons,
   type PoliticalTendency,
   type PoliticalOrientation,
   threatIndicators,
-  type ThreatIndicator,
   appraisals,
-  type Appraisal,
-  politicalProfiles,
-  type PoliticalProfile
+  politicalProfiles
 } from "@/data/mockData";
 // ─── Helpers ─────────────────────────────────────────────────────────────────
  
@@ -92,44 +88,7 @@ function deriveHouseholdColor(
   return { mode: "inconclusive" };
 }
  
-/** Returns Tailwind / CSS classes for each display mode */
-function colorClasses(result: HouseholdColorResult): {
-  border: string;
-  badge: string;
-  badgeText: string;
-  label: string;
-}
- {
-  if (result.mode === "inconclusive") {
-    return {
-      border: "border-l-border",
-      badge: "bg-muted",
-      badgeText: "text-muted-foreground",
-      label: "Inconclusive",
-    };
-  }
- 
-  const pol = POLITICAL_CANDIDATES.find(
-    (c) => c.key === result.orientation
-  )!;
- 
-  if (result.mode === "majority") {
-    return {
-      border: pol.borderClass,
-      badge: pol.bgClass,
-      badgeText: "text-white",
-      label: pol.label,
-    };
-  }
- 
-  // lean
-  return {
-    border: pol.borderClass,
-    badge: pol.tintClass,
-    badgeText: pol.textClass,
-    label: `Leans ${pol.label}`,
-  };
-}
+
 
 const POL_COLORS: Record<PoliticalOrientation | "inconclusive", string> = {
   maratas: "hsl(var(--pol-maratas))",    // Red - Administration

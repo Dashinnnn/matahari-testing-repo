@@ -11,23 +11,21 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 import {
-  householdWelfare,
-  householdWelfareAssessments,
   programCategories,
   persons,
+  getPersonWelfare,
+  getPersonVulnerabilityAssessment,
   type Household,
   type Person,
   type DependencyLevel,
-  type VulnerabilityClassification,
 } from "@/data/mockData";
 
 import {
   ArrowDown, ArrowRight, Eye, MapPin, Users,
-  Heart, Shield, Vote, User
+  Heart, Shield
 } from "lucide-react";
 
 import { HouseholdWorkspaceHeader, type HouseholdWorkspaceTab } from "../data-repository/HouseholdWorkspaceHeader";
-import { HouseholdWorkspace } from "./HouseholdWorkspace";
 
 // ── helpers (same as DataRepository) ────────────────────────────────────────
 
@@ -66,7 +64,6 @@ export function HouseholdProfileModal({
   onClose,
   onNavigate,
   onOpenWelfare,
-  onOpenPolitical,
   onOpenPerson,
   onOpenVulnerability,
 }: HouseholdProfileModalProps) {
@@ -81,7 +78,7 @@ export function HouseholdProfileModal({
   }, [household?.id]);
 
   const getHouseholdMembers = (id: string) => persons.filter(p => p.householdId === id);
-  const getWelfareAssessment = (id: string) => householdWelfareAssessments.find(a => a.householdId === id);
+
   const goToMapping = (lat: number, lng: number) => navigate(`/mapping?lat=${lat}&lng=${lng}`);
 
   return (
@@ -102,9 +99,12 @@ export function HouseholdProfileModal({
           </div>
         </DialogHeader>
 
-        {household && (
+        {household && (() => {
+          const head = persons.find(p => p.householdId === household.id && p.relation === "Head") || persons.find(p => p.householdId === household.id) || persons[0];
+          return (
           <div className="space-y-5">
             <HouseholdWorkspaceHeader
+              person={head}
               household={household}
               activeTab="profile"
               onNavigate={onNavigate}
@@ -129,10 +129,10 @@ export function HouseholdProfileModal({
             {editing ? (
               <div className="grid grid-cols-2 gap-4">
                 <div><Label>Head of Family</Label><Input defaultValue={household.headOfFamily} /></div>
-                <div><Label>Age</Label><Input type="number" defaultValue={household.age} /></div>
+                <div><Label>Age</Label><Input type="number" defaultValue={head?.age} /></div>
                 <div>
                   <Label>Sex</Label>
-                  <Select defaultValue={household.sex}>
+                  <Select defaultValue={head?.sex}>
                     <SelectTrigger><SelectValue /></SelectTrigger>
                     <SelectContent>
                       <SelectItem value="Male">Male</SelectItem>
@@ -142,7 +142,7 @@ export function HouseholdProfileModal({
                 </div>
                 <div>
                   <Label>Civil Status</Label>
-                  <Select defaultValue={household.civilStatus}>
+                  <Select defaultValue={head?.civilStatus}>
                     <SelectTrigger><SelectValue /></SelectTrigger>
                     <SelectContent>
                       <SelectItem value="Single">Single</SelectItem>
@@ -152,9 +152,9 @@ export function HouseholdProfileModal({
                     </SelectContent>
                   </Select>
                 </div>
-                <div><Label>Education</Label><Input defaultValue={household.education} /></div>
-                <div><Label>Occupation</Label><Input defaultValue={household.occupation} /></div>
-                <div><Label>Religion</Label><Input defaultValue={household.religion} /></div>
+                <div><Label>Education</Label><Input defaultValue={head?.education} /></div>
+                <div><Label>Occupation</Label><Input defaultValue={head?.occupation} /></div>
+                <div><Label>Religion</Label><Input defaultValue={head?.religion} /></div>
                 <div><Label>Income</Label><Input type="number" defaultValue={household.income} /></div>
                 <div><Label>Members</Label><Input type="number" defaultValue={household.members} /></div>
                 <div>
@@ -177,12 +177,12 @@ export function HouseholdProfileModal({
             ) : (
               <div className="grid grid-cols-2 gap-4">
                 {([
-                  ["Age", household.age],
-                  ["Sex", household.sex],
-                  ["Civil Status", household.civilStatus],
-                  ["Education", household.education],
-                  ["Occupation", household.occupation],
-                  ["Religion", household.religion],
+                  ["Age", head?.age ?? "—"],
+                  ["Sex", head?.sex ?? "—"],
+                  ["Civil Status", head?.civilStatus ?? "—"],
+                  ["Education", head?.education ?? "—"],
+                  ["Occupation", head?.occupation ?? "—"],
+                  ["Religion", head?.religion ?? "—"],
                   ["Income", `₱${household.income.toLocaleString()}`],
                   ["Members", household.members],
                   ["Housing", household.housingType],
@@ -209,14 +209,15 @@ export function HouseholdProfileModal({
               </button>
 
               {expanded && (() => {
-                const welfare = householdWelfare.find(w => w.householdId === household.id);
+                const head = persons.find(p => p.householdId === household.id && p.relation === "Head");
+                const welfare = head ? getPersonWelfare(head.id) : null;
                 const natProgs = welfare?.programs.filter(p => programCategories[p.name] === "National") || [];
                 const locProgs = welfare?.programs.filter(p => programCategories[p.name] === "Local") || [];
                 const natActive = natProgs.filter(p => p.status === "Active").length;
                 const locActive = locProgs.filter(p => p.status === "Active").length;
                 const natDep = computeDependencyLevel(natActive);
                 const locDep = computeDependencyLevel(locActive);
-                const assessment = getWelfareAssessment(household.id);
+                const assessment = head ? getPersonVulnerabilityAssessment(head.id) : null;
 
                 return (
                   <div className="space-y-5 p-5">
@@ -309,7 +310,8 @@ export function HouseholdProfileModal({
               </div>
             </div>
           </div>
-        )}
+          );
+        })()}
 
         <DialogFooter>
           <Button variant="outline" onClick={() => { onClose(); setEditing(false); }}>

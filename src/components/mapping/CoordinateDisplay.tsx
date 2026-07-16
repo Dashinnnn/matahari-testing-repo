@@ -12,7 +12,7 @@ interface CoordinateDisplayProps {
   onSaveComplete?: () => void;
 }
 
-const CoordinateDisplay = ({ lat, lng, zoom, dblClickCoords, onClearDblClick, onSaveCoords, onSaveComplete }: CoordinateDisplayProps) => {
+const CoordinateDisplay = ({ dblClickCoords, onClearDblClick, onSaveCoords, onSaveComplete }: CoordinateDisplayProps) => {
   const [copiedField, setCopiedField] = useState<string | null>(null);
 
   const handleCopy = (value: string, field: string) => {

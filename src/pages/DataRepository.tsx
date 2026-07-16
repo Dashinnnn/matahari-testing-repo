@@ -24,11 +24,10 @@ import {
   type Household,
   type Person,
   type WelfareProgram,
-  type DependencyLevel,
 } from "@/data/mockData";
 
 import {
-  House, Trash2, Baby, HeartHandshake, IdCard,
+  House, Baby, HeartHandshake, IdCard,
   Eye, Heart, Vote, User, Plus, Upload,
   ChevronDown, ChevronRight, ChevronLeft, Info,
 } from "lucide-react";

@@ -14,13 +14,13 @@ import { toast } from "sonner";
 
 import {
   ArrowDown, ArrowRight, Eye, MapPin, Users,
-  Heart, Vote, Shield, Info, CalendarIcon,
+  Heart, Shield, Info,
 } from "lucide-react";
 
 import { PersonWorkspaceHeader, type HouseholdWorkspaceTab } from "@/pages/components/HouseholdWorkspaceHeader";
 
 import {
-  households,
+
   programCategories,
   persons,
   computePoliticalSummary,
@@ -90,7 +90,7 @@ export function HouseholdWorkspace({
   const [history, setHistory] = useState<WorkspaceEntry[]>([]);
   const [current, setCurrent] = useState<WorkspaceEntry | null>(null);
 
-  const [welfareSelectedYear, setWelfareSelectedYear] = useState<string>("current");
+
   const [polEditing, setPolEditing] = useState(false);
   const [profileExpanded, setProfileExpanded] = useState(false);
   const [polHistoryOpen, setPolHistoryOpen] = useState(false);
@@ -112,7 +112,7 @@ export function HouseholdWorkspace({
 
   useEffect(() => {
     setPolEditing(false);
-    setWelfareSelectedYear("current");
+
   }, [current?.tab, current?.personId]);
 
   const person = useMemo(
@@ -124,7 +124,7 @@ export function HouseholdWorkspace({
 
   // ── navigation ──────────────────────────────────────────────────────────────
   const dialogContentRef = useRef<HTMLDivElement>(null);
-  const [navigatingToPersonId, setNavigatingToPersonId] = useState<string | null>(null);
+
 
   const navigateWorkspace = (tab: HouseholdWorkspaceTab) => {
     if (!current) return;
@@ -146,8 +146,7 @@ export function HouseholdWorkspace({
     if (current) setHistory(h => [...h, current]);
     setCurrent({ personId: targetPerson.id, tab });
 
-    // Set the navigating state for visual feedback
-    setNavigatingToPersonId(targetPerson.id);
+
 
     // Scroll the dialog content to the top with smooth behavior
     setTimeout(() => {
@@ -165,10 +164,7 @@ export function HouseholdWorkspace({
         });
       }
       
-      // Clear the highlight after animation completes
-      setTimeout(() => {
-        setNavigatingToPersonId(null);
-      }, 800);
+
     }, 100);
   };
 
@@ -519,7 +515,7 @@ export function HouseholdWorkspace({
               </div>
 
               <DialogFooter>
-                <Button variant="outline" onClick={() => { setWelfareSelectedYear("current"); onClose(); }}>Close</Button>
+                <Button variant="outline" onClick={() => { onClose(); }}>Close</Button>
               </DialogFooter>
             </>
           );

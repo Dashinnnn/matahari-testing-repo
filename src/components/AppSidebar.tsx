@@ -1,6 +1,5 @@
 import {
-  LayoutDashboard, Database, Map, ShieldAlert, ClipboardCheck,
-  Compass, Target, Users, BarChart3, Vote, PanelLeftClose, PanelLeft, Shield
+  LayoutDashboard, Database, Map, Vote, PanelLeftClose, PanelLeft
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 // import { useLocation } from "react-router-dom";
